@@ -1,5 +1,9 @@
 import './css/styles.css';
+import Notiflix from 'notiflix';
+import cards from './cards.hbs';
 const DEBOUNCE_DELAY = 300;
+const markup = cards;
+console.log(markup);
 
 const refs = {
     formSearch: document.querySelector('#search-box'),
@@ -7,9 +11,9 @@ const refs = {
     countryInfo: document.querySelector('.country-info'),
 
 };
-console.log(refs.formSearch);
-console.log(refs.counnryList);
-console.log(refs.countryInfo);
+// console.log(refs.formSearch);
+// console.log(refs.counnryList);
+// console.log(refs.countryInfo);
 
 
 
@@ -38,13 +42,18 @@ refs.formSearch.addEventListener('submit', onSearch)
 function onSearch(e) {
     e.preventDefoult();
     const form = e.currentTarget;
-    console.log(form.elements);
+    const serchQuuery = form.elements.query.value;
+
+    // console.log(form.elements);
+httpInquiry (serchQuuery)
 };
-// function renderList(svg) {
-//     const items = []
-//     refs.counnryList.innerHTML = '';
-//     refs.counnryList.insertAdjacentHTML("beforebegin", items.join(''));
-// }
+
+
+function renderList(svg) {
+    const items = []
+    refs.counnryList.innerHTML = '';
+    refs.counnryList.insertAdjacentHTML("beforebegin", items.join(''));
+}
 
 function onSearch() {
     
