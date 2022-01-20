@@ -2,22 +2,15 @@ import './css/styles.css';
 import Notiflix from 'notiflix';
 import cards from './cards.hbs';
 const DEBOUNCE_DELAY = 300;
-const markup = cards;
-console.log(markup);
 
 const refs = {
     formSearch: document.querySelector('#search-box'),
     counnryList: document.querySelector('.country-list'),
     countryInfo: document.querySelector('.country-info'),
-
 };
 // console.log(refs.formSearch);
 // console.log(refs.counnryList);
 // console.log(refs.countryInfo);
-
-
-
-
 function httpInquiry (name) {
     const SEARCH_URL = 'https://restcountries.com/v3.1/name/${name}';
     const filter = '?fields=name,capital,population,flags,languages';
@@ -28,36 +21,45 @@ function httpInquiry (name) {
         })
         .then(name => {
             console.log(name);
-    
+            const markup = cards(name);
+            console.log(markup);
         })
         .catch(error => {
             console.log(error);
-            
         });
    
-}
- httpInquiry( )
-refs.formSearch.addEventListener('submit', onSearch)
-
-function onSearch(e) {
-    e.preventDefoult();
-    const form = e.currentTarget;
-    const serchQuuery = form.elements.query.value;
-
-    // console.log(form.elements);
-httpInquiry (serchQuuery)
 };
+httpInquiry()
+ 
 
 
-function renderList(svg) {
-    const items = []
-    refs.counnryList.innerHTML = '';
-    refs.counnryList.insertAdjacentHTML("beforebegin", items.join(''));
-}
 
-function onSearch() {
+
+
+
+
+
+// refs.formSearch.addEventListener('submit', onSearch)
+
+// function onSearch(e) {
+//     e.preventDefoult();
+//     const form = e.currentTarget;
+//     const serchQuuery = form.elements.query.value;
+
+//     // console.log(form.elements);
+// httpInquiry (serchQuuery)
+// };
+
+
+// function renderList(svg) {
+//     const items = []
+//     refs.counnryList.innerHTML = '';
+//     refs.counnryList.insertAdjacentHTML("beforebegin", items.join(''));
+// }
+
+// function onSearch() {
     
-};
+// };
 // function renderCard(name) {
         
 //     }
