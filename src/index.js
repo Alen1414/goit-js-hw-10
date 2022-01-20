@@ -1,9 +1,11 @@
 import './css/styles.css';
-import Notiflix from 'notiflix';
+// import Notiflix from 'notiflix';
 import cards from './cards.hbs';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
 const DEBOUNCE_DELAY = 300;
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import debounce from 'lodash.debounce'
 
+import API from './api-service'
 const refs = {
     formSearch: document.querySelector('#search-box'),
     counnryList: document.querySelector('.country-list'),
@@ -13,49 +15,33 @@ const refs = {
 // console.log(refs.counnryList);
 // console.log(refs.countryInfo);
 
-function httpInquiry(name) {
-    const SEARCH_URL = `https://restcountries.com/v3.1/name/${name}`;
-    const  FILTER = '?fields=name,capital,population,flags,languages';
-    // const { name } = refs.formSearch.elements;
-
-  return fetch(`${SEARCH_URL}${FILTER}`)
-        .then(response => {
-            return response.json();
-        })
-        };
-
-   
- 
-function renderCard(name) {
-//  console.log(name);
- const markup = cards(name[0]);
- // console.log(markup);
- refs.countryInfo.innerHTML = markup;
-
-}
 
 
-refs.formSearch.addEventListener('input', onSearch)
+refs.formSearch.addEventListener('input',debounce(onSearch, DEBOUNCE_DELAY))
 
 function onSearch(e) {
     e.preventDefault()
     const form = e.currentTarget;
     console.log(form)
-    const serchQuuery = refs.formSearch.value;
-    console.log(serchQuuery);
+const serchQuuery = refs.formSearch.value;
+console.log(serchQuuery);
    
-    httpInquiry(serchQuuery)
+   API.httpInquiry(serchQuuery)
         .then(renderCard)
-        .catch(error => {
-            Notify.failure('Oops, there is no country with that name');
-            return error;
-        });
-}
+        .catch(onFetchError)
     // .finally(()=> form.reset())
+};
 
+function renderCard(name) {
+ console.log(name);
+ const markup = cards(name[0]);
+ // console.log(markup);
+ refs.countryInfo.innerHTML = markup;
 
-
-
+}
+function onFetchError(error) {
+    Notify.failure('Oops, there is no country with that name');
+}
 
 
 
